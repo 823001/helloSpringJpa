@@ -1,7 +1,9 @@
 package kr.ac.hansung.cse.controller;
 
 import jakarta.validation.Valid;
+import kr.ac.hansung.cse.exception.DuplicateCategoryException;
 import kr.ac.hansung.cse.model.CategoryForm;
+import kr.ac.hansung.cse.service.CategoryService;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -32,11 +34,11 @@ public class CategoryController {
 
     @PostMapping("/create")
     public String createCategory(@Valid @ModelAttribute CategoryForm categoryForm, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-        if (bindingResult.hasErrors()) { return "categoryForm;"; }
+        if (bindingResult.hasErrors()) { return "categoryForm"; }
 
         try {
             categoryService.createCategory(categoryForm.getName());
-            redirectAttributes.addFlashAttribute("successMessage", "카테고리가 성공적으로 등록되었습니다.");
+            redirectAttributes.addFlashAttribute("successMessage", "등록 완료");
         } catch (DuplicateCategoryException e) {
             bindingResult.rejectValue("name", "duplicate", e.getMessage());
             return "categoryForm";
@@ -48,7 +50,7 @@ public class CategoryController {
     public String deleteCategory(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         try {
             categoryService.deleteCategory(id);
-            redirectAttributes.addFlashAttribute("successMessage", "카테고리가 삭제되었습니다.");
+            redirectAttributes.addFlashAttribute("successMessage", "삭제 완료");
 
         } catch (IllegalStateException e){
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
