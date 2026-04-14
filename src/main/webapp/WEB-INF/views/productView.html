@@ -102,12 +102,8 @@
         </form>
     </div>
 
-    <hr>
     <footer style="text-align: center; color: #555; padding: 20px;">
-        <p>
-            <span th:text = "${'실습 수행 일시: ' + #temporals.format(#temporals.createNow(), 'yyyy-MM-dd HH:mm:ss')}"></span>
-            2371343 김소미
-        </p>
+        <p th:text="${'실습 수행 일시: ' + #temporals.format(#temporals.createNow(), 'yyyy년 MM월 dd일 HH:mm:ss') + ' | 학번: 2371343 | 성명: 김소미'}"></p>
     </footer>
 
 </body>
